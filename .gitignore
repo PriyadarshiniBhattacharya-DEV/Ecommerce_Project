@@ -1,0 +1,50 @@
+Environment variables and secrets
+
+.env
+.env.*
+!.env.example
+!.env.template
+
+Java / Maven build output
+
+**/target/
+**/build/
+**/out/
+
+Java application logs
+
+*.log
+logs/
+
+IDE files
+
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+Operating system files
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+Frontend dependencies
+
+**/node_modules/
+
+Frontend build output
+
+**/dist/
+
+Local configuration containing secrets
+
+application-local.properties
+application-secret.properties
+
+Temporary files
+
+*.tmp
+*.swp

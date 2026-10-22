@@ -1,0 +1,51 @@
+import { USE_MOCK_API } from "../Config";
+//import * as mockApi from "./MockApi";
+import * as realApi from "./RealApi";
+//const api = USE_MOCK_API ? mockApi : realApi;
+const api = realApi;
+
+export const {
+  getWishlist,
+  isInWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  addProducts,
+  getProducts,
+  addCategories,
+  deleteCategory,
+  getCategories,
+  getCategoryById,
+  getProductById,
+  updateProductById,
+  updateCategoryById,
+  getProductsByCategory,
+  searchProducts,
+  searchProductsById,
+  searchProductsByCategory,
+  searchCategoryByName,
+  searchCategoryById,
+  increaseStock,
+  decreaseStock,
+  getCart,
+  addToCart,
+  getCartItemQuantity,
+  removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+  clearCart,
+  getCartTotal,
+  getOrders,
+  getOrderById,
+  createOrder,
+  updateOrderStatus,
+  updateOrderItemStatus,
+  submitReturnRequest,
+  cancelReturnRequest,
+  checkCredentialValidity,
+  authorizeUser,
+  showUserList,
+  searchUserList,
+  deleteProducts,
+  deleteAllCategoryProducts,
+
+} = api;
