@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getOrderById, cancelReturnRequest } from "../../Services/Api";
+import { getOrderById, cancelReturnRequest, updateOrderItemStatus } from "../../Services/Api";
 import { STATUS_COLORS } from "../../Utils/StatusUtils";
 
 export default function OrderDetailsPage() {
@@ -25,6 +25,18 @@ export default function OrderDetailsPage() {
       }));
     } catch (err) {
       alert("Failed to cancel return request. Please try again.");
+    }
+  };
+
+  const handleCancelItem = async (itemId) => {
+    try {
+      const updatedItem = await updateOrderItemStatus(itemId, "CANCELED");
+      setOrder((prev) => ({
+        ...prev,
+        items: prev.items.map((i) => (i.id === itemId ? updatedItem : i)),
+      }));
+    } catch (err) {
+      alert("Failed to cancel item. Please try again.");
     }
   };
 
@@ -116,7 +128,7 @@ export default function OrderDetailsPage() {
                 )}
 
                 {item.status === "ORDER PLACED" && (
-                  <button className="btn btn-outline-danger btn-sm">
+                  <button className="btn btn-outline-danger btn-sm" onClick={() => handleCancelItem(item.id)}>
                     Cancel Item
                   </button>
                 )}

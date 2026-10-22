@@ -154,10 +154,12 @@ public class OrderService {
         String reason = item.getReturnReason();
         String details = item.getReturnDetails();
         String images = item.getReturnImages();
+        LocalDateTime returnRequestDate = item.getReturnRequestDate();
         Map<String, String> requestMap = new HashMap<>();
         requestMap.put("reason", reason);
         requestMap.put("details", details);
         requestMap.put("photos",images);
+        requestMap.put("returnRequestDate", String.valueOf(returnRequestDate));
         return requestMap;
     }
 

@@ -69,7 +69,7 @@ function AdminOrderPage() {
     }
 
     // 4. If all items are delivered or return processed
-    if (statuses.every((s) => s === "DELIVERED" || s === "RETURN PROCESSED" || s === "RETURN REQUEST DISMISSED")) {
+    if (statuses.every((s) => s === "DELIVERED" || s === "RETURN PROCESSED" || s === "RETURN REQUEST DISMISSED" || s === "CANCELED")) {
       return "FULFILLED";
     }
 

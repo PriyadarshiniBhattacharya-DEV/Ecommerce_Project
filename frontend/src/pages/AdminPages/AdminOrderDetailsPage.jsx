@@ -263,48 +263,55 @@ function AdminOrderDetailsPage() {
                         <td>{item.quantity}</td>
                         <td>${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</td>
                         <td>
-                          <div className="input-group input-group-sm">
-                            <select
-                              className="form-select"
-                              value={itemStatuses[item.id] || currentItemSt}
-                              onChange={(e) =>
-                                setItemStatuses({
-                                  ...itemStatuses,
-                                  [item.id]: e.target.value,
-                                })
-                              }
-                            >
-                              {Object.keys(STATUS_COLORS)
-                                .filter((statusOption) => {
-                                  if (statusOption === "CANCELED") return false;
+                          {/* Option 2: Render static CANCELED badge if canceled, otherwise render input-group dropdown */}
+                          {currentItemSt === "CANCELED" ? (
+                            <span className="badge bg-danger px-3 py-2" style={{ fontSize: "0.85rem" }}>
+                              CANCELED
+                            </span>
+                          ) : (
+                            <div className="input-group input-group-sm">
+                              <select
+                                className="form-select"
+                                value={itemStatuses[item.id] || currentItemSt}
+                                onChange={(e) =>
+                                  setItemStatuses({
+                                    ...itemStatuses,
+                                    [item.id]: e.target.value,
+                                  })
+                                }
+                              >
+                                {Object.keys(STATUS_COLORS)
+                                  .filter((statusOption) => {
+                                    if (statusOption === "CANCELED") return false;
 
-                                  const isReturnOption = RETURN_STATUSES.includes(statusOption);
-                                  const isCurrentInReturnFlow = RETURN_STATUSES.includes(currentItemSt);
+                                    const isReturnOption = RETURN_STATUSES.includes(statusOption);
+                                    const isCurrentInReturnFlow = RETURN_STATUSES.includes(currentItemSt);
 
-                                  if (isCurrentInReturnFlow) {
-                                    return isReturnOption;
-                                  } else {
-                                    return !isReturnOption;
-                                  }
-                                })
-                                .map((statusOption) => {
-                                  const isDisabled = !isValidNextStatus(currentItemSt, statusOption);
-                                  return (
-                                    <option key={statusOption} value={statusOption} disabled={isDisabled}>
-                                      {statusOption} {isDisabled ? " (Locked)" : ""}
-                                    </option>
-                                  );
-                                })}
-                            </select>
-                            <button
-                              className="btn btn-outline-primary"
-                              type="button"
-                              onClick={() => handleItemStatusUpdate(item.id, currentItemSt)}
-                              disabled={updatingItemId === item.id}
-                            >
-                              {updatingItemId === item.id ? "Saving..." : "Update"}
-                            </button>
-                          </div>
+                                    if (isCurrentInReturnFlow) {
+                                      return isReturnOption;
+                                    } else {
+                                      return !isReturnOption;
+                                    }
+                                  })
+                                  .map((statusOption) => {
+                                    const isDisabled = !isValidNextStatus(currentItemSt, statusOption);
+                                    return (
+                                      <option key={statusOption} value={statusOption} disabled={isDisabled}>
+                                        {statusOption} {isDisabled ? " (Locked)" : ""}
+                                      </option>
+                                    );
+                                  })}
+                              </select>
+                              <button
+                                className="btn btn-outline-primary"
+                                type="button"
+                                onClick={() => handleItemStatusUpdate(item.id, currentItemSt)}
+                                disabled={updatingItemId === item.id}
+                              >
+                                {updatingItemId === item.id ? "Saving..." : "Update"}
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
 
@@ -318,21 +325,21 @@ function AdminOrderDetailsPage() {
                                 <p className="text-muted small mb-0">Loading return info...</p>
                               ) : returnDetails[item.id] ? (
                                 (() => {
-                                  const rawData = 
-                                    returnDetails[item.id].reason || 
-                                    returnDetails[item.id].details || 
-                                    returnDetails[item.id].description || 
-                                    returnDetails[item.id].returnReason ||
-                                    "";
+                                  // const rawData = 
+                                  //   returnDetails[item.id].reason || 
+                                  //   returnDetails[item.id].details || 
+                                  //   returnDetails[item.id].description || 
+                                  //   returnDetails[item.id].returnReason ||
+                                  //   "";
 
-                                  if (typeof rawData !== "string") {
-                                    return <p className="text-muted small">Invalid return data format.</p>;
-                                  }
+                                  // if (typeof rawData !== "string") {
+                                  //   return <p className="text-muted small">Invalid return data format.</p>;
+                                  // }
 
-                                  const imageParts = returnDetails[item.id].photos.split(",");
+                                  const imageParts = returnDetails[item.id].photos?.split(",");
                                   const images = [];
 
-                                  imageParts.forEach((part) => {
+                                  imageParts?.forEach((part) => {
                                     const trimmed = part.trim();
                                     const isBase64Image = 
                                       trimmed.startsWith("data:image") || 
